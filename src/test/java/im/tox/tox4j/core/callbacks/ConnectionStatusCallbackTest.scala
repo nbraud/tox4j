@@ -8,14 +8,12 @@ import org.junit.Assert.assertNotEquals
 
 final class ConnectionStatusCallbackTest extends AliceBobTestBase {
 
-  class Client extends AliceBobTestBase.ChatClient {
+  @NotNull
+  override def newAlice() = new AliceBobTestBase.ChatClient {
     override def connectionStatus(@NotNull connection: ToxConnection) {
       super.connectionStatus(connection)
       assertNotEquals(ToxConnection.NONE, connection)
       finish()
     }
   }
-
-  @NotNull
-  override def newAlice() = new Client()
 }
