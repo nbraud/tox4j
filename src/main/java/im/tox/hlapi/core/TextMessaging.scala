@@ -1,7 +1,6 @@
 package im.tox.hlapi.core
 
 import im.tox.hlapi.message.UserConversation
-import im.tox.hlapi.core.User
 
 class TextMessaging {
   def startConversation(user: User): UserConversation = ???

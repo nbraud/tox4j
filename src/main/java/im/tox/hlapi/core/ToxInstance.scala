@@ -1,19 +1,17 @@
 package im.tox.hlapi.core
 
-import scala.option
-
-import im.tox.tox4j.ToxCore
-import im.tox.tox4j.ToxCoreImpl
+import im.tox.tox4j.core.ToxCore
+import im.tox.tox4j.core.ToxOptions
+import im.tox.tox4j.impl.ToxCoreNative
 import im.tox.tox4j.core.enums.ToxProxyType
 
 import im.tox.hlapi.traits._
-import im.tox.hlapi.message.TextMessaging
 
-class ToxInstance(@NotNull options: ToxOptions, @Nullable data: Array[Byte]) {
-  protected[im.tox.hlapi.core] final val tox = new ToxCoreImpl(options,data)
+class ToxInstance(options: ToxOptions, data: Array[Byte]) {
+  protected[core] final val tox = new ToxCoreNative(options,data)
   private final val thread = new Thread(new Runnable {
     def run {
-      while true {
+      while(true) {
         tox.iteration
         Thread sleep tox.iterationInterval
       }
@@ -26,12 +24,12 @@ class ToxInstance(@NotNull options: ToxOptions, @Nullable data: Array[Byte]) {
 
   var textMessagingDep: Option[TextMessagingReq] = None
 
-  @throw(classOf[DoubleRegistration])
+  @throws(classOf[DoubleRegistration])
   def registerTextMsg(req: TextMessagingReq): TextMessaging = {
-    if textMessagingDep != None {
+    if(textMessagingDep != None) {
       throw new DoubleRegistration("TextMessaging")
     }
-    textMessagingDep = req
+    textMessagingDep = Some(req)
     ???
   }
 }

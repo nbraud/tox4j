@@ -1,3 +1,5 @@
 package im.tox.hlapi.core
 
-class User {}
+class User {
+  val foo: Int = 42
+}
