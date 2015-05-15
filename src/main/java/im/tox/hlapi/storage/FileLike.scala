@@ -1,4 +1,4 @@
-package im.tox.hlapi.default.storage
+package im.tox.hlapi.storage
 
 trait FileLike {
   // All write operations performed before a flush() MUST be written to

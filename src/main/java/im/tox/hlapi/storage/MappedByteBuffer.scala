@@ -1,4 +1,4 @@
-package im.tox.hlapi.default.storage
+package im.tox.hlapi.storage
 
 trait MappedByteBuffer extends java.nio.MappedByteBuffer with FileLike {
   def flush = force
