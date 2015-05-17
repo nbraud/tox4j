@@ -1,5 +1,8 @@
 package im.tox.hlapi.group
 
+import scala.concurrent.Future
+import im.tox.hlapi.message.GroupConversation
+
 sealed trait PrivacySetting
 case object Public         extends PrivacySetting
 case object Private        extends PrivacySetting
@@ -19,5 +22,5 @@ case object InviteDisabled extends JoinError
 case object InviteFailed   extends JoinError
 
 class GroupChat {
-
+  def join() : Future[Either[GroupConversation, JoinError]] = ???
 }

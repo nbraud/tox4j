@@ -1,7 +1,7 @@
-package im.tox.hlapi.traits
+package im.tox.hlapi.friend
 
 import im.tox.hlapi.core._
-import im.tox.hlapi.friend._
+import im.tox.hlapi.traits.StateStorage
 
 trait FriendListReq {
   def callback(newRequest: IncomingRequest)

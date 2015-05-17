@@ -5,7 +5,8 @@ import im.tox.tox4j.core.ToxOptions
 import im.tox.tox4j.impl.ToxCoreNative
 import im.tox.tox4j.core.enums.ToxProxyType
 
-import im.tox.hlapi.traits._
+import im.tox.hlapi.message.TextMessaging
+import im.tox.hlapi.message.TextMessagingReq
 
 class ToxInstance(options: ToxOptions, data: Array[Byte]) {
   protected[core] final val tox = new ToxCoreNative(options,data)

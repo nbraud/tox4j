@@ -1,6 +1,4 @@
-package im.tox.hlapi.traits
-
-import im.tox.hlapi.message.Conversation
+package im.tox.hlapi.message
 
 trait TextMessagingReq {
   def callback(newConv: UserConversation)

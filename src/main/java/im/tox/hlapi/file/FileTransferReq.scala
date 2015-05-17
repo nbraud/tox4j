@@ -1,8 +1,7 @@
-package im.tox.hlapi.traits
+package im.tox.hlapi.file
 
 import im.tox.hlapi.core._
-import im.tox.hlapi.file.Transfer
-import im.tox.hlapi.file.AbstractFile
+import im.tox.hlapi.traits.StateStorage
 
 trait FileTransferReq[T <: AbstractFile] {
   def callback(newTransfer: Transfer[T])
