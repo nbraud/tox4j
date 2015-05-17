@@ -21,6 +21,6 @@ case object GroupFull      extends JoinError
 case object InviteDisabled extends JoinError
 case object InviteFailed   extends JoinError
 
-class GroupChat {
+class GroupChat extends Serializable {
   def join() : Future[Either[GroupConversation, JoinError]] = ???
 }
