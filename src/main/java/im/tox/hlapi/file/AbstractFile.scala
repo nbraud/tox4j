@@ -1,7 +1,7 @@
 package im.tox.hlapi.file
 
 import scala.concurrent.Future
-import im.tox.hlapi.traits._
+import im.tox.hlapi.util.Stream
 
 trait AbstractFile {
   def read(offset: Long): Stream[Byte]

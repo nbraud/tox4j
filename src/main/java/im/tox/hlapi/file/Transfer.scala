@@ -1,6 +1,5 @@
 package im.tox.hlapi.file
 
-import im.tox.hlapi.traits._
 import im.tox.hlapi.core._
 
 sealed abstract class Transfer[T <: AbstractFile] extends Serializable {
