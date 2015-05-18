@@ -6,4 +6,5 @@ import im.tox.hlapi.group.GroupUser
 
 case class GroupConversation(group: GroupChat) extends Conversation {
   def members: Iterable[GroupUser] = ???
+  val id: GroupChat = group
 }

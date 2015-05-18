@@ -8,4 +8,5 @@ abstract class Conversation {
   def sendMessage(msg: Message) : Future[Unit] = ???
   def typing(b: Boolean) : Future[Unit] = ???
   val msgStream : Stream[Message] = ???
+  val id: ConversationId
 }
