@@ -3,12 +3,12 @@ package im.tox.hlapi.file
 import im.tox.hlapi.core._
 
 sealed abstract class Transfer[T <: AbstractFile] extends Serializable {
-  def abort()        = ???
+  def abort = ???
 
   private[file] def resume(file: T, offset: Long)
 
-  def status(): Nothing = ???
-  def user: User = ???
+  def status: Nothing = ???
+  val user: User = ???
   private[hlapi] def transferId: Integer = ???
 }
 

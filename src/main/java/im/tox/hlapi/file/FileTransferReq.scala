@@ -4,8 +4,8 @@ import im.tox.hlapi.core._
 import im.tox.hlapi.storage.KeyValue
 
 trait FileTransferReq[T <: AbstractFile] {
-  def callback(newTransfer: Transfer[T])
-  def state: State
+  def callback(newTransfer: IncomingTransfer[T])
+  val state: State
 
   trait State extends KeyValue[Transfer[T]] {
     def delete(state: Transfer[T]): Boolean = delete(state.transferId)
