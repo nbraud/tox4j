@@ -5,7 +5,7 @@ import im.tox.hlapi.storage.ValueType
 
 sealed abstract class Transfer[T <: AbstractFile]
     extends ValueType[TransferId] {
-  val key = ???
+  val key: TransferId = ???
 
   def abort = ???
 
