@@ -2,14 +2,14 @@ package im.tox.hlapi.core
 
 import im.tox.tox4j.core.ToxCore
 import im.tox.tox4j.core.ToxOptions
-import im.tox.tox4j.impl.ToxCoreNative
+import im.tox.tox4j.impl.ToxCoreImpl
 import im.tox.tox4j.core.enums.ToxProxyType
 
 import im.tox.hlapi.message.TextMessaging
 import im.tox.hlapi.message.TextMessagingReq
 
 class ToxInstance(options: ToxOptions, data: Array[Byte]) {
-  protected[core] final val tox = new ToxCoreNative(options,data)
+  protected[core] final val tox = new ToxCoreImpl(options, data)
   private final val thread = new Thread(new Runnable {
     def run {
       while(true) {
@@ -35,5 +35,5 @@ class ToxInstance(options: ToxOptions, data: Array[Byte]) {
   }
 }
 
-
-case class DoubleRegistration(component: String) extends Exception(component)
+final case class DoubleRegistration(component: String)
+  extends Exception(component)
