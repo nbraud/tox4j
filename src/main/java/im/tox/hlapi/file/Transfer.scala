@@ -7,21 +7,21 @@ sealed abstract class Transfer[T <: AbstractFile]
     extends ValueType[TransferId] {
   val key: TransferId = ???
 
-  def abort = ???
+  def abort { ??? }
 
   private[file] def resume(file: T, offset: Long)
 
-  def status: Nothing = ???
+  def status: TransferStatus = ???
   val user: User = ???
   private[hlapi] def transferId: Integer = ???
 }
 
 final case class IncomingTransfer[T <: AbstractFile]() extends Transfer[T] {
-  def start(file: T) = ???
+  def start(file: T) { ??? }
 
-  private[file] def resume(file: T, offset: Long) = ???
+  private[file] def resume(file: T, offset: Long) { ??? }
 }
 
 final case class OutgoingTransfer[T <: AbstractFile]() extends Transfer[T] {
-  private[file] def resume(file: T, offset: Long) = ???
+  private[file] def resume(file: T, offset: Long) { ??? }
 }
