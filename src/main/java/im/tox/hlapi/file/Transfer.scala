@@ -16,12 +16,12 @@ sealed abstract class Transfer[T <: AbstractFile]
   private[hlapi] def transferId: Integer = ???
 }
 
-case class IncomingTransfer[T <: AbstractFile]() extends Transfer[T] {
+final case class IncomingTransfer[T <: AbstractFile]() extends Transfer[T] {
   def start(file: T) = ???
 
   private[file] def resume(file: T, offset: Long) = ???
 }
 
-case class OutgoingTransfer[T <: AbstractFile]() extends Transfer[T] {
+final case class OutgoingTransfer[T <: AbstractFile]() extends Transfer[T] {
   private[file] def resume(file: T, offset: Long) = ???
 }

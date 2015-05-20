@@ -19,8 +19,8 @@ class ToxInstance(options: ToxOptions, data: Array[Byte]) {
     }
   })
 
-  def this(options: ToxOptions) = this(options, null)
-  def this() = this(new ToxOptions(true, true, ToxProxyType.NONE, null, 0))
+  def this(options: ToxOptions) = this(options, None.orNull)
+  def this() = this(new ToxOptions(true, true, ToxProxyType.NONE, None.orNull, 0))
 
   var textMessagingDep: Option[TextMessagingReq] = None
 
