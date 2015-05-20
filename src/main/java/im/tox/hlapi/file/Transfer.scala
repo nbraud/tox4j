@@ -7,7 +7,7 @@ sealed abstract class Transfer[T <: AbstractFile]
     extends ValueType[TransferId] {
   val key: TransferId = ???
 
-  def abort { ??? }
+  def abort() { ??? }
 
   private[file] def resume(file: T, offset: Long)
 
