@@ -3,6 +3,7 @@ package im.tox.hlapi.group
 import scala.concurrent.Future
 import im.tox.hlapi.message.{GroupConversation,ConversationId}
 import im.tox.hlapi.core._
+import im.tox.hlapi.storage.ValueType
 
 sealed trait PrivacySetting
 case object Public         extends PrivacySetting
@@ -22,9 +23,10 @@ case object GroupFull      extends JoinError
 case object InviteDisabled extends JoinError
 case object InviteFailed   extends JoinError
 
-class GroupChat extends ConversationId {
+class GroupChat(_key: PublicKey)
+    extends ConversationId with ValueType[PublicKey] {
+  val key = _key // Still very ugly. Scalac, you make me sad
   def join() : Future[Either[GroupConversation, JoinError]] = ???
 
-  val key:  PublicKey = ???
   val name: String    = ???
 }

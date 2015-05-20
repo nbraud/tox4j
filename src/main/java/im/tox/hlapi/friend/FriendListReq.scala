@@ -7,8 +7,5 @@ trait FriendListReq {
   def callback(newRequest: IncomingRequest)
   val state: State
 
-  trait State extends KeyValue[User] {
-    def delete(user: User): Boolean = delete(???)
-    def add(user: User) { add(???, user) }
-  }
+  trait State extends KeyValue[PublicKey, User]
 }

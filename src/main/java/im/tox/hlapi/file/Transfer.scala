@@ -1,8 +1,12 @@
 package im.tox.hlapi.file
 
 import im.tox.hlapi.core._
+import im.tox.hlapi.storage.ValueType
 
-sealed abstract class Transfer[T <: AbstractFile] extends Serializable {
+sealed abstract class Transfer[T <: AbstractFile]
+    extends ValueType[TransferId] {
+  val key = ???
+
   def abort = ???
 
   private[file] def resume(file: T, offset: Long)

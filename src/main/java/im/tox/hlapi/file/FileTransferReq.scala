@@ -7,8 +7,5 @@ trait FileTransferReq[T <: AbstractFile] {
   def callback(newTransfer: IncomingTransfer[T])
   val state: State
 
-  trait State extends KeyValue[Transfer[T]] {
-    def delete(state: Transfer[T]): Boolean = delete(state.transferId)
-    def add(state: Transfer[T]) { add(state.transferId, state) }
-  }
+  trait State extends KeyValue[TransferId, Transfer[T]]
 }

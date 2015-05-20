@@ -9,5 +9,5 @@ trait GroupConversationReq {
   def privateCallback(conversation: GroupUserConversation)
 
   val state: State
-  trait State extends KeyValue[GroupChat]
+  trait State extends KeyValue[PublicKey, GroupChat]
 }
