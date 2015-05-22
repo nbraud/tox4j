@@ -8,6 +8,9 @@ import im.tox.tox4j.core.enums.ToxProxyType
 import im.tox.hlapi.message.TextMessaging
 import im.tox.hlapi.message.TextMessagingReq
 
+import scalaz._
+import scalaz.syntax.id._
+
 class ToxInstance(options: ToxOptions) {
   protected[core] final val tox = new ToxCoreImpl(options)
   private final val thread = new Thread(new Runnable {
@@ -23,15 +26,10 @@ class ToxInstance(options: ToxOptions) {
 
   var textMessagingDep: Option[TextMessagingReq] = None
 
-  @throws(classOf[DoubleRegistration])
-  def registerTextMsg(req: TextMessagingReq): TextMessaging = {
-    if (textMessagingDep != None) {
-      throw new DoubleRegistration("TextMessaging")
+  def registerTextMsg(req: TextMessagingReq): \/[String, TextMessaging] = {
+    textMessagingDep match {
+      case Some(_) => "TextMessaging".left
+      case None    => textMessagingDep = Some(req); (??? : TextMessaging).right
     }
-    textMessagingDep = Some(req)
-    ???
   }
 }
-
-final case class DoubleRegistration(component: String)
-  extends Exception(component)

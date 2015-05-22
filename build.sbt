@@ -5,7 +5,8 @@ version       := "0.0.0-SNAPSHOT"
 // Build dependencies.
 libraryDependencies ++= Seq(
   "com.typesafe.scala-logging" %% "scala-logging" % "3.1.0",
-  "org.json" % "json" % "20131018"
+  "org.json" % "json" % "20131018",
+  "org.scalaz" %% "scalaz-core" % "7.1.2"
 )
 
 // Test dependencies.
