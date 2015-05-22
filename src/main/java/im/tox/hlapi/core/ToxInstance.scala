@@ -8,8 +8,8 @@ import im.tox.tox4j.core.enums.ToxProxyType
 import im.tox.hlapi.message.TextMessaging
 import im.tox.hlapi.message.TextMessagingReq
 
-class ToxInstance(options: ToxOptions, data: Array[Byte]) {
-  protected[core] final val tox = new ToxCoreImpl(options, data)
+class ToxInstance(options: ToxOptions) {
+  protected[core] final val tox = new ToxCoreImpl(options)
   private final val thread = new Thread(new Runnable {
     def run {
       while (true) {
@@ -19,7 +19,6 @@ class ToxInstance(options: ToxOptions, data: Array[Byte]) {
     }
   })
 
-  def this(options: ToxOptions) = this(options, None.orNull)
   def this() = this(new ToxOptions(true, true, ToxProxyType.NONE, None.orNull, 0))
 
   var textMessagingDep: Option[TextMessagingReq] = None
