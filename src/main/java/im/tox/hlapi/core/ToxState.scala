@@ -1,35 +1,42 @@
 package im.tox.hlapi.core
 
-import scala.collection.immutable.Set
+import scala.collection.immutable.Map
 import scalaz._
 import scalaz.syntax.either._
 
-import im.tox.hlapi.message.{ TextMessaging, TextMessagingReq }
-import im.tox.hlapi.log.{ LoggingReq, Logging }
-import im.tox.hlapi.friend.{ FriendListReq, FriendList }
-import im.tox.hlapi.file.{ FileTransferReq, FileTransferring }
-import im.tox.hlapi.group.{ GroupConversationReq }
+import im.tox.hlapi.message.UserConversation
+import im.tox.hlapi.friend.IncomingRequest
 
 final case class ToxState(
-    textMessagingDep: Option[TextMessagingReq],
-    loggingDep: Option[LoggingReq],
-    friendListDep: Option[FriendListReq],
-    fileTransferDep: Option[FileTransferReq[_]],
-    groupChatDep: Option[GroupConversationReq]
+    moduleStates: Map[ToxModule, Any],
+    conversationCallback: Option[UserConversation => ToxState => ToxState],
+    friendCallback: Option[IncomingRequest => ToxState => ToxState]
 ) {
-  //  val modules: Set[ToxModule] = Set.empty
-
-  def registerTextMsg(req: TextMessagingReq): \/[String, (ToxState, TextMessaging)] = {
-    textMessagingDep match {
-      case Some(_) => "TextMessaging".left
-      case None    => (this.copy(textMessagingDep = Some(req)), (??? : TextMessaging)).right
+  def registerConversation(callback: UserConversation => ToxState => ToxState) =
+    conversationCallback match {
+      case None    => Some(this.copy(conversationCallback = Some(callback)))
+      case Some(_) => None
     }
-  }
 
-  def registerLogging(req: LoggingReq): \/[String, (ToxState, Logging)] = {
-    textMessagingDep match {
-      case Some(_) => "Logging".left
-      case None    => (this.copy(loggingDep = Some(req)), (??? : Logging)).right
+  def registerFriend(callback: IncomingRequest => ToxState => ToxState) =
+    friendCallback match {
+      case None    => Some(this.copy(friendCallback = Some(callback)))
+      case Some(_) => None
     }
-  }
+
+  // {map,set}State should probably be lenses
+  @SuppressWarnings(Array("org.brianmckenna.wartremover.warts.AsInstanceOf"))
+  def mapState(t: ToxModule): Option[t.State] =
+    moduleStates.get(t) match {
+      case None => None
+
+      //This is horrible. Can moduleStates be more precisely typed?
+      case Some(x) => {
+        try Some(x.asInstanceOf[t.State])
+        catch { case _: Exception => assert(false); None }
+      }
+    }
+
+  def setState(t: ToxModule)(s: t.State): ToxState =
+    this.copy(moduleStates = moduleStates + ((t, s)))
 }
