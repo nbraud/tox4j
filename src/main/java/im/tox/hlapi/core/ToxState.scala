@@ -7,6 +7,7 @@ import scalaz.syntax.either._
 import im.tox.hlapi.message.UserConversation
 import im.tox.hlapi.friend.IncomingRequest
 
+// XXXTODO: Make actual constructor private
 final case class ToxState(
     moduleStates: Map[ToxModule, Any],
     conversationCallback: Option[UserConversation => ToxState => ToxState],
