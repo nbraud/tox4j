@@ -6,5 +6,5 @@ import im.tox.hlapi.storage.KeyValue
 trait FileTransferReq {
   type T <: AbstractFile
   def callback(newTransfer: IncomingTransfer[T])
-  val state: KeyValue[TransferId, Transfer[T]]
+  def state: KeyValue[TransferId, Transfer[T]]
 }

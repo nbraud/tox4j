@@ -5,5 +5,5 @@ import im.tox.hlapi.storage.KeyValue
 
 trait FriendListReq {
   def callback(newRequest: IncomingRequest)
-  val storage: KeyValue[PublicKey, User]
+  def storage: KeyValue[PublicKey, User]
 }

@@ -8,6 +8,5 @@ trait GroupConversationReq {
   def inviteCallback(chat: GroupChat)
   def privateCallback(conversation: GroupUserConversation)
 
-  val state: State
-  trait State extends KeyValue[PublicKey, GroupChat]
+  def storage: KeyValue[PublicKey, GroupChat]
 }
