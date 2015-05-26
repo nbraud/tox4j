@@ -23,9 +23,8 @@ case object GroupFull extends JoinError
 case object InviteDisabled extends JoinError
 case object InviteFailed extends JoinError
 
-class GroupChat(_key: PublicKey)
+class GroupChat(val key: PublicKey)
     extends ConversationId with ValueType[PublicKey] {
-  val key = _key // Still very ugly. Scalac, you make me sad
   def join(): Future[Either[GroupConversation, JoinError]] = ???
 
   val name: String = ???
