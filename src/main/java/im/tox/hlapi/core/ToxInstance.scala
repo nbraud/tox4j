@@ -1,7 +1,7 @@
 package im.tox.hlapi.core
 
 import im.tox.tox4j.core.ToxCore
-import im.tox.tox4j.core.ToxOptions
+import im.tox.tox4j.core.options.ToxOptions
 import im.tox.tox4j.impl.ToxCoreImpl
 import im.tox.tox4j.core.enums.ToxProxyType
 
@@ -16,8 +16,7 @@ class ToxInstance(options: ToxOptions) {
     }
   })
 
-  // XXXTODO: Bad code
-  def this() = this(ToxOptions(true, true, ToxProxyType.NONE, None.orNull, 0))
+  def this() = this(new ToxOptions())
 
   def performIO(st: ToxState): ToxState = ???
 }
