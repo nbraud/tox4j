@@ -1,3 +1,10 @@
 package im.tox.hlapi.message
 
-final case class TextMessage(msg: String) extends Message
+import im.tox.hlapi.core._
+
+final case class TextMessage(
+  val msg: String,
+  val id: MessageId,
+  val from: User,
+  val time: java.util.Date
+) extends Message
