@@ -8,6 +8,6 @@ import im.tox.hlapi.core._
 abstract class Conversation {
   def sendMessage(msg: Message)(tox: ToxState): (ToxState, Future[Unit]) = ???
   def typing(b: Boolean)(tox: ToxState): ToxState = ???
-  val msgStream: Stream[Message] = ???
+  val msgStream: Stream[MessageEvent] = ???
   val id: ConversationId
 }
