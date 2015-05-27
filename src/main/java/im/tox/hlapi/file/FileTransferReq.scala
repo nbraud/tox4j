@@ -5,6 +5,6 @@ import im.tox.hlapi.storage.KeyValue
 
 trait FileTransferReq {
   type T <: AbstractFile
-  def callback(newTransfer: IncomingTransfer[T])
+  def callback(newTransfer: IncomingTransfer[T])(tox: ToxState): ToxState
   def state: KeyValue[TransferId, Transfer[T]]
 }
