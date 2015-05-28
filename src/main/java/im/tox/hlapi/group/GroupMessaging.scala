@@ -8,7 +8,6 @@ import scala.concurrent.Future
 class GroupMessaging extends ToxModule {
   type State = Unit
   val initial = ()
-  val name = "GroupMessaging"
 
   def create(tox: ToxState): (GroupChat, ToxState) = ???
   def join(group: GroupChat)(tox: ToxState): (ToxState, Future[GroupConversation]) = ???

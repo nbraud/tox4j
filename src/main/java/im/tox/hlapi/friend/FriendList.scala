@@ -10,7 +10,6 @@ class FriendList(req: FriendListReq)
 
   type State = KeyValueWrapper[PublicKey, User]
   val initial: State = KeyValueWrapper(req.storage)
-  val name = "FriendList"
 
   def add(user: User, noSPAM: NoSpam, message: String) { ??? }
   def add(address: ToxAddress, nick: Option[String], message: String) { ??? }

@@ -6,7 +6,7 @@ import scalaz.syntax.either._
 trait ToxModule {
   type State
   def initial: State
-  def name: String
+  def name: String = getClass.getName
 
   // A module which registers callback should override this
   def register(tox: ToxState): \/[String, ToxState] =
