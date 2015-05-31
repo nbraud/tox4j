@@ -25,7 +25,11 @@ class FriendList(req: FriendListReq)
 
     def delete(user: User) = ???
 
-    def friends: GenTraversable[User] = ???
+    val star: FriendTag = ???
+    def lookupTag(name: String)(tox: ToxState): Option[FriendTag] = ???
+    def createTag(name: String)(tox: ToxState): (ToxState, Option[FriendTag]) = ???
+    def tags(tox: ToxState): GenTraversable[FriendTag] = ???
+    def friends(tox: ToxState): GenTraversable[User] = ???
   }
 
 }
