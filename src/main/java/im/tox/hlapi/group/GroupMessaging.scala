@@ -9,6 +9,11 @@ class GroupMessaging extends ToxModule {
   type State = Unit
   val initial = ()
 
-  def create(tox: ToxState): (GroupChat, ToxState) = ???
-  def join(group: GroupChat)(tox: ToxState): (ToxState, Future[GroupConversation]) = ???
+  type ImplType = Impl
+  private[hlapi] object impl extends Impl
+
+  trait Impl {
+    def create(tox: ToxState): (GroupChat, ToxState) = ???
+    def join(group: GroupChat)(tox: ToxState): (ToxState, Future[GroupConversation]) = ???
+  }
 }

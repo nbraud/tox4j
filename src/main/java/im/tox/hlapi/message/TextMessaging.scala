@@ -6,7 +6,10 @@ class TextMessaging extends ToxModule {
   type State = Unit
   def initial = ()
 
-  def startConversation(user: User)(tox: ToxState): (ToxState, UserConversation) = {
-    ???
+  type ImplType = Impl
+  private[hlapi] object impl extends Impl
+
+  trait Impl {
+    def startConversation(user: User)(tox: ToxState): (ToxState, UserConversation) = ???
   }
 }

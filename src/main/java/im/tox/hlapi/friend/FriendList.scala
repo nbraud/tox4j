@@ -11,12 +11,21 @@ class FriendList(req: FriendListReq)
   type State = KeyValueWrapper[PublicKey, User]
   val initial: State = KeyValueWrapper(req.storage)
 
-  def add(user: User, noSPAM: NoSpam, message: String) { ??? }
-  def add(address: ToxAddress, nick: Option[String], message: String) { ??? }
-  def add(address: ToxAddress, message: String) { add(address, None, message) }
-  private[friend] def addNoRequest(user: User) { ??? }
+  type ImplType = Impl
+  private[hlapi] object impl extends Impl {
+  }
 
-  def delete(user: User) { ??? }
+  trait Impl {
+    def addNoRequest(user: User)(tox: ToxState): ToxState = ???
+    def add(user: User, noSPAM: NoSpam, message: String)(tox: ToxState): ToxState = ???
+    def add(address: ToxAddress, nick: Option[String], message: String)(tox: ToxState): ToxState = ???
+    def add(address: ToxAddress, message: String)(tox: ToxState): ToxState = {
+      add(address, None, message)(tox)
+    }
 
-  def iterator: Iterator[User] = ???
+    def delete(user: User) = ???
+
+    def friends: GenTraversable[User] = ???
+  }
+
 }
