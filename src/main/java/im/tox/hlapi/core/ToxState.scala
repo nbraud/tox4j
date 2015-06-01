@@ -41,7 +41,6 @@ final case class ToxState(
   def setState(t: ToxModule)(s: t.State): ToxState =
     this.copy(moduleStates = moduleStates + ((t, s)))
 
-  def register(t: ToxModule): \/[String, (ToxState, t.ImplType)] = {
+  def register(t: ToxModule): \/[String, (ToxState, t.ImplType)] =
     t.register(this)
-  }
 }
