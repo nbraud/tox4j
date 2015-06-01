@@ -4,6 +4,7 @@ import im.tox.hlapi.core._
 import im.tox.hlapi.storage.KeyValueWrapper
 
 import scala.collection.GenTraversable
+import scalaz._
 
 class FriendList(req: FriendListReq)
     extends ToxModule {
@@ -12,8 +13,8 @@ class FriendList(req: FriendListReq)
   val initial: State = KeyValueWrapper(req.storage)
 
   type ImplType = Impl
-  private[hlapi] object impl extends Impl {
-  }
+  private[hlapi] def impl(lens: Lens[ToxState, State]) =
+    new Impl {}
 
   trait Impl {
     def addNoRequest(user: User)(tox: ToxState): ToxState = ???

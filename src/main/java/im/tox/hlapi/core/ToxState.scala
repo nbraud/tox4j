@@ -27,19 +27,30 @@ final case class ToxState(
 
   // {map,set}State should probably be lenses
   @SuppressWarnings(Array("org.brianmckenna.wartremover.warts.AsInstanceOf"))
-  def mapState(t: ToxModule): Option[t.State] =
+  private def _getState(t: ToxModule): t.State =
     moduleStates.get(t) match {
-      case None => None
+      case None    => ???
 
       //This is horrible. Can moduleStates be more precisely typed?
-      case Some(x) => {
-        try Some(x.asInstanceOf[t.State])
-        catch { case _: Exception => assert(false); None }
-      }
+      case Some(x) => x.asInstanceOf[t.State]
     }
 
-  def setState(t: ToxModule)(s: t.State): ToxState =
+  private def _setState(t: ToxModule)(s: t.State): ToxState =
     this.copy(moduleStates = moduleStates + ((t, s)))
+
+  def stateLens(t: ToxModule)(init: t.State) =
+    moduleStates.get(t) match {
+      case None =>
+        Some((
+          _setState(t)(init),
+          Lens.lensu[ToxState, t.State](
+            (s, v) => s._setState(t)(v),
+            _._getState(t)
+          )
+        ))
+
+      case Some(_) => None
+    }
 
   def register(t: ToxModule): \/[String, (ToxState, t.ImplType)] =
     t.register(this)
