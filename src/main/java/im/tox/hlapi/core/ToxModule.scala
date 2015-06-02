@@ -4,8 +4,9 @@ import scalaz._
 import scalaz.syntax.either._
 
 import im.tox.hlapi.core.security.Policy
+import im.tox.hlapi.core.settings.Configurable
 
-trait ToxModule {
+trait ToxModule extends Configurable {
   type State
   def initial: State
   def name: String = getClass.getName
@@ -21,5 +22,4 @@ trait ToxModule {
       case Some((tox, lens)) => \/-((tox, impl(lens)))
       case None              => -\/(name)
     }
-
 }

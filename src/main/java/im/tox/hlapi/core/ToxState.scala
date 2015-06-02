@@ -54,4 +54,7 @@ final case class ToxState(
 
   def register(t: ToxModule): \/[String, (ToxState, t.ImplType)] =
     t.register(this)
+
+  type SettingKey = ToxConfig
+  val settings = ToxConfig.settings
 }

@@ -16,8 +16,14 @@ class Logging extends ToxModule {
   private[hlapi] def impl(lens: Lens[ToxState, State]) =
     new Impl {}
 
+  type SettingKey = SyncConfig
+  val settings = SyncConfig.settings
+
   trait Impl {
     def lookup(conversation: ConversationId)(tox: ToxState): GenTraversable[Message] = ???
     def search(query: Query)(tox: ToxState): GenTraversable[Message] = ???
+
+    def getSetting(key: SettingKey): ToxState => key.V = ???
+    def setSetting(key: SettingKey)(value: key.V): ToxState => ToxState = ???
   }
 }
