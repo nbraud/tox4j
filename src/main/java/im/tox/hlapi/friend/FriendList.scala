@@ -18,7 +18,7 @@ class FriendList(req: FriendListReq)
 
   trait Impl {
     def addNoRequest(user: User)(tox: ToxState): ToxState = ???
-    def add(user: User, noSPAM: NoSpam, message: String)(tox: ToxState): ToxState = ???
+    def add(user: User, noSpam: NoSpam, message: String)(tox: ToxState): ToxState = ???
     def add(address: ToxAddress, nick: Option[String], message: String)(tox: ToxState): ToxState = ???
     def add(address: ToxAddress, message: String)(tox: ToxState): ToxState = {
       add(address, None, message)(tox)
