@@ -3,10 +3,14 @@ package im.tox.hlapi.core
 import scalaz._
 import scalaz.syntax.either._
 
+import im.tox.hlapi.core.security.Policy
+
 trait ToxModule {
   type State
   def initial: State
   def name: String = getClass.getName
+
+  def policy: Policy = Policy.default
 
   type ImplType
   private[hlapi] def impl(lens: Lens[ToxState, State]): ImplType
