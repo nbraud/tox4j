@@ -10,8 +10,8 @@ trait FileLike {
   // Failure MUST be handled gracefully by the caller
   //  (i.e. HLAPI storage implementation).
   //  NOTE: Haven't yet found where Java implements this.
-  def discard(i: Integer, j: Integer): Boolean = false
+  def discard(i: Long, j: Long): Boolean = false
 
-  def get(i: Integer): Byte
-  def set(i: Integer, v: Byte)
+  def get(i: Long): Byte
+  def set(i: Long, v: Byte)
 }
