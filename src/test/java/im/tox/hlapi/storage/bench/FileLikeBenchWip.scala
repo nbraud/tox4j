@@ -1,19 +1,22 @@
 package im.tox.hlapi.storage.bench
 
-import im.tox.tox4j.Tox4jPerformanceReport
+import im.tox.tox4j.bench.TimingReport
 import org.scalameter.api._
 
 import java.io.RandomAccessFile
 import java.nio.channels.FileChannel.MapMode
 import java.nio.MappedByteBuffer
-import im.tox.hlapi.storage.{ MappedByteByffer => Buffer }
+import im.tox.hlapi.storage.{ MappedByteBuffer => Buffer }
 
-class FileLikeBench extends Tox4jPerformanceReport {
-  val fileLike = {
+class FileLikeBench extends TimingReport {
+  val fileLike = for {
     // That's dirty
+    unit <- Gen.unit("")
+  } yield {
     val file = new RandomAccessFile("/tmp/tox4j-FileLike-bench", "rw")
     file.setLength(1024 * 1024)
-    Buffer(file.getChannel().map(MapMode.READ_WRITE, 0, 1024 * 1024))
+    val buffer = Buffer(file.getChannel().map(MapMode.READ_WRITE, 0, 1024 * 1024))
+    buffer
   }
 
   timing of "FileLike" in {
@@ -25,7 +28,7 @@ class FileLikeBench extends Tox4jPerformanceReport {
 
     measure method "set" in {
       using(fileLike) in {
-        _.get(10, 0x42: Byte)
+        _.set(10, 0x42: Byte)
       }
     }
   }
