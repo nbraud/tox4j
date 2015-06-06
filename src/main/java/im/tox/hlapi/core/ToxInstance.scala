@@ -10,7 +10,7 @@ class ToxInstance(options: ToxOptions) {
   private final val thread = new Thread(new Runnable {
     def run {
       while (true) {
-        tox.iteration
+        tox.iterate()
         Thread sleep tox.iterationInterval
       }
     }
