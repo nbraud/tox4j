@@ -1,7 +1,19 @@
 package im.tox.hlapi.storage
 
-trait MappedByteBuffer extends java.nio.MappedByteBuffer with FileLike {
-  def flush() = force
+import java.nio.{ MappedByteBuffer => Buffer }
 
-  def set(i: Integer, v: Byte) = put(i, v)
+object MappedByteBuffer {
+  def apply(buffer: Buffer) = new MappedByteBuffer(buffer)
+  //  def apply(path: String) = {
+  //    val file = new RandomAccessFile(path, "rw")
+  //    val buffer = file.getChannel().map(MapMode.READ_WRITE, 0, 1024*1024)
+  //    new MappedByteBuffer(buffer)
+  //  }
+}
+
+final class MappedByteBuffer(buffer: Buffer) extends FileLike {
+  def flush() = buffer.force
+
+  def set(i: Long, v: Byte) = buffer.put(i.toInt, v)
+  def get(i: Long) = buffer.get(i.toInt)
 }
