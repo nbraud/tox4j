@@ -1,6 +1,6 @@
 package im.tox.hlapi.storage.bench
 
-import im.tox.tox4j.bench.TimingReport
+import im.tox.tox4j.bench.{ Confidence, TimingReport }
 import org.scalameter.api._
 
 import java.io.RandomAccessFile
@@ -9,6 +9,8 @@ import java.nio.MappedByteBuffer
 import im.tox.hlapi.storage.{ MappedByteBuffer => Buffer }
 
 class FileLikeBench extends TimingReport {
+  protected override def confidence = Confidence.extreme
+
   val fileLike = for {
     // That's dirty
     unit <- Gen.unit("")
@@ -26,10 +28,26 @@ class FileLikeBench extends TimingReport {
       }
     }
 
+    measure method "get-flush" in {
+      using(fileLike) in (x =>
+        {
+          x.get(10)
+          x.flush
+        })
+    }
+
     measure method "set" in {
       using(fileLike) in {
         _.set(10, 0x42: Byte)
       }
+    }
+
+    measure method "set-flush" in {
+      using(fileLike) in (x =>
+        {
+          x.set(10, 0x42: Byte)
+          x.flush
+        })
     }
   }
 }
