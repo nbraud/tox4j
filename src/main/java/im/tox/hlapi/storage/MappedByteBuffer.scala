@@ -16,4 +16,6 @@ final class MappedByteBuffer(buffer: Buffer) extends FileLike {
 
   def set(i: Long, v: Byte) = buffer.put(i.toInt, v)
   def get(i: Long) = buffer.get(i.toInt)
+
+  def size = buffer.capacity.toLong
 }

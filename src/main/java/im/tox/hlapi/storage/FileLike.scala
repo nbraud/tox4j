@@ -14,4 +14,6 @@ trait FileLike {
 
   def get(i: Long): Byte
   def set(i: Long, v: Byte)
+
+  def size: Long
 }
