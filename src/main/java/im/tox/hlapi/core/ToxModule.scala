@@ -17,9 +17,6 @@ trait ToxModule extends Configurable {
   private[hlapi] def impl(lens: Lens[ToxState, State]): ImplType
 
   // A module which registers callback should override this
-  def register(tox: ToxState): \/[String, (ToxState, ImplType)] =
-    tox.stateLens(this)(initial) match {
-      case Some((tox, lens)) => \/-((tox, impl(lens)))
-      case None              => -\/(name)
-    }
+  private[core] def register(tox: ToxState, lens: Lens[ToxState, State]): \/[String, (ToxState, ImplType)] =
+    \/-((tox, impl(lens)))
 }

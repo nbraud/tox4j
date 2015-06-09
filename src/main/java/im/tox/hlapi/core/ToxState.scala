@@ -30,9 +30,9 @@ final case class ToxState private (
    *
    * For HLAPI's internal use only
    */
-  def registerConversation(callback: UserConversation => ToxState => ToxState) =
+  private[hlapi] def registerConversation(callback: UserConversation => ToxState => ToxState) =
     conversationCallback match {
-      case None    => Some(this.copy(conversationCallback = Some(callback)))
+      case None    => Some(copy(conversationCallback = Some(callback)))
       case Some(_) => None
     }
 
@@ -41,9 +41,9 @@ final case class ToxState private (
    *
    * For HLAPI's internal use only
    */
-  def registerFriend(callback: IncomingRequest => ToxState => ToxState) =
+  private[hlapi] def registerFriend(callback: IncomingRequest => ToxState => ToxState) =
     friendCallback match {
-      case None    => Some(this.copy(friendCallback = Some(callback)))
+      case None    => Some(copy(friendCallback = Some(callback)))
       case Some(_) => None
     }
 
@@ -53,9 +53,9 @@ final case class ToxState private (
    * If there is no such state yet, use the module's initial state.
    */
   @SuppressWarnings(Array("org.brianmckenna.wartremover.warts.AsInstanceOf"))
-  private def _getState(t: ToxModule)(init: t.State): t.State =
+  private def _getState(t: ToxModule): t.State =
     moduleStates.get(t) match {
-      case None    => init
+      case None    => t.initial
 
       //This is horrible. Can moduleStates be more precisely typed?
       case Some(x) => x.asInstanceOf[t.State]
@@ -67,7 +67,7 @@ final case class ToxState private (
    * Returns a new ToxState
    */
   private def _setState(t: ToxModule)(s: t.State): ToxState =
-    this.copy(moduleStates = moduleStates + ((t, s)))
+    copy(moduleStates = moduleStates + ((t, s)))
 
   /**
    * Wraps _getState and _toxState in a lens
@@ -75,19 +75,11 @@ final case class ToxState private (
    * It is private to ToxState, so that no module can acquire a Lens
    * for another module's state
    */
-  private[core] def stateLens(t: ToxModule)(init: t.State): Option[(ToxState, Lens[ToxState, t.State])] =
-    moduleStates.get(t) match {
-      case None =>
-        Some((
-          _setState(t)(init),
-          Lens.lensu[ToxState, t.State](
-            (s, v) => s._setState(t)(v),
-            _._getState(t)(init)
-          )
-        ))
-
-      case Some(_) => None
-    }
+  private def stateLens(t: ToxModule): Lens[ToxState, t.State] =
+    Lens.lensu[ToxState, t.State](
+      (s, v) => s._setState(t)(v),
+      _._getState(t)
+    )
 
   /**
    * Register a module
@@ -95,7 +87,10 @@ final case class ToxState private (
    * This calls the module's register method with appropriate parameters.
    */
   def register(t: ToxModule): \/[String, (ToxState, t.ImplType)] =
-    t.register(this)
+    moduleStates.get(t) match {
+      case Some(_) => -\/(t.name)
+      case None    => t.register(_setState(t)(t.initial), stateLens(t))
+    }
 
   /** Configuration for ToxState */
   type SettingKey = ToxConfig
