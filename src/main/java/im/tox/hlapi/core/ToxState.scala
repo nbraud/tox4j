@@ -7,8 +7,11 @@ import scalaz.syntax.either._
 import im.tox.hlapi.message.UserConversation
 import im.tox.hlapi.friend.IncomingRequest
 
-// XXXTODO: Make actual constructor private
-final case class ToxState(
+object ToxState {
+  def apply() = new ToxState(Map.empty, None, None)
+}
+
+final case class ToxState private (
     moduleStates: Map[ToxModule, Any],
     conversationCallback: Option[UserConversation => ToxState => ToxState],
     friendCallback: Option[IncomingRequest => ToxState => ToxState]
@@ -27,9 +30,9 @@ final case class ToxState(
 
   // {map,set}State should probably be lenses
   @SuppressWarnings(Array("org.brianmckenna.wartremover.warts.AsInstanceOf"))
-  private def _getState(t: ToxModule): t.State =
+  private def _getState(t: ToxModule)(init: t.State): t.State =
     moduleStates.get(t) match {
-      case None    => ???
+      case None    => init
 
       //This is horrible. Can moduleStates be more precisely typed?
       case Some(x) => x.asInstanceOf[t.State]
@@ -38,14 +41,14 @@ final case class ToxState(
   private def _setState(t: ToxModule)(s: t.State): ToxState =
     this.copy(moduleStates = moduleStates + ((t, s)))
 
-  def stateLens(t: ToxModule)(init: t.State) =
+  private[core] def stateLens(t: ToxModule)(init: t.State): Option[(ToxState, Lens[ToxState, t.State])] =
     moduleStates.get(t) match {
       case None =>
         Some((
           _setState(t)(init),
           Lens.lensu[ToxState, t.State](
             (s, v) => s._setState(t)(v),
-            _._getState(t)
+            _._getState(t)(init)
           )
         ))
 
