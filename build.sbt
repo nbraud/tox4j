@@ -2,12 +2,14 @@
 name          := "tox4j"
 version       := "0.0.0-SNAPSHOT"
 
+val scalazVersion = "7.1.2"
+
 // Build dependencies.
 libraryDependencies ++= Seq(
   "com.github.nscala-time" %% "nscala-time" % "2.0.0",
   "com.typesafe.scala-logging" %% "scala-logging" % "3.1.0",
   "org.json" % "json" % "20131018",
-  "org.scalaz" %% "scalaz-core" % "7.1.2"
+  "org.scalaz" %% "scalaz-core" % scalazVersion
 )
 
 // Test dependencies.
@@ -16,6 +18,7 @@ libraryDependencies ++= Seq(
   "junit" % "junit" % "4.12",
   "org.scalacheck" %% "scalacheck" % "1.12.2",
   "org.scalatest" %% "scalatest" % "2.2.4",
+  "org.scalaz" %% "scalaz-scalacheck-binding" % scalazVersion,
   "org.slf4j" % "slf4j-log4j12" % "1.7.12"
 ) map (_ % Test)
 
