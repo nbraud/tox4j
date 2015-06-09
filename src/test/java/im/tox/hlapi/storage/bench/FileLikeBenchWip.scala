@@ -12,7 +12,7 @@ class FileLikeBench extends TimingReport {
   protected override def confidence = Confidence.high
 
   val fileLike = (for {
-    size <- Gen.range("size (Mb)")(1, 100, 1)
+    size <- Gen.range("size (MB)")(1, 25, 1)
   } yield {
     val file = new File(s"/tmp/tox4j-FileLike-$size")
     file.deleteOnExit()
@@ -21,46 +21,25 @@ class FileLikeBench extends TimingReport {
     Buffer(file2.getChannel().map(MapMode.READ_WRITE, 0, size * 1024 * 1024))
   }).cached
 
-  timing of "FileLike" in {
-    measure method "get" in {
-      using(fileLike) in {
-        _.get(10)
-      }
 
+  timing of "FileLike" in {
+
+    measure method "get" in {
       using(fileLike) in (x => {
-        for (i <- 0.toLong to x.size) {
+        for (i <- 0.toLong to x.size - 1) {
           x.get(i)
         }
       })
-
     }
 
-    measure method "get-flush" in {
-      using(fileLike) in (x =>
-        {
-          x.get(10)
-          x.flush
-        })
-    }
 
     measure method "set" in {
-      using(fileLike) in {
-        _.set(10, 0x42: Byte)
-      }
-
       using(fileLike) in (x => {
-        for (i <- 0.toLong to x.size) {
+        for (i <- 0.toLong to x.size - 1) {
           x.set(i, i.toByte)
         }
       })
     }
 
-    measure method "set-flush" in {
-      using(fileLike) in (x =>
-        {
-          x.set(10, 0x42: Byte)
-          x.flush
-        })
-    }
   }
 }
