@@ -3,6 +3,7 @@ package im.tox.hlapi.core
 import scala.collection.immutable.Map
 import scalaz._
 import scalaz.syntax.either._
+import scalaz.syntax.equal._
 
 import im.tox.hlapi.message.UserConversation
 import im.tox.hlapi.friend.IncomingRequest
@@ -10,6 +11,8 @@ import im.tox.hlapi.friend.IncomingRequest
 object ToxState {
   /** Constructs a new ToxState */
   def apply() = new ToxState(Map.empty, None, None)
+
+  implicit val ToxStateEqual: Equal[ToxState] = Equal.equal(_ == _)
 }
 
 /**
