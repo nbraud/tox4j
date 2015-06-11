@@ -10,10 +10,20 @@ trait FileLike {
   // Failure MUST be handled gracefully by the caller
   //  (i.e. HLAPI storage implementation).
   //  NOTE: Haven't yet found where Java implements this.
-  def discard(i: Long, j: Long): Boolean = false
+  def discard(slice: Slice): Boolean = false
 
-  def get(i: Long): Byte
-  def set(i: Long, v: Byte)
-
+  //TODO Need proper error monad
+  def apply(offset: Long, size: Int): Option[Slice]
   def size: Long
+
+}
+
+trait Slice extends Iterable[Byte] {
+  def size: Int
+
+  def write(offset: Int)(data: Array[Byte]): Boolean
+  def write(data: Array[Byte]): Boolean = write(0)(data)
+
+  def get(offset: Int): Option[Byte]
+  def set(offset: Int, value: Byte): Boolean
 }
