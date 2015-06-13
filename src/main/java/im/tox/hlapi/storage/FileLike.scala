@@ -1,5 +1,7 @@
 package im.tox.hlapi.storage
 
+import scala.collection.immutable.Iterable
+
 trait FileLike {
   // All write operations performed before a flush() MUST be written to
   //  persistent storage. They MAY be shadowed by later set() to the same
