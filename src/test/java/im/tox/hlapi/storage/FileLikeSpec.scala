@@ -11,7 +11,7 @@ import org.scalatest.prop.PropertyChecks
 
 object FileSpecification extends Commands {
 
-  type Sut = MappedByteBuffer
+  type Sut = MappedFile
 
   final case class State(val size: Long, val values: HashMap[Long, Byte]) {
     def get(position: Long): Option[Byte] = values.get(position)
@@ -19,19 +19,20 @@ object FileSpecification extends Commands {
       copy(values = values + ((position, value)))
   }
 
-  def genInitialState: Gen[State] = {
-    for {
-      keys <- Gen.nonEmptyContainerOf[List, Long](Gen.choose(0, 2 * 1024 * 1024 * 1024))
-      values <- Gen.containerOfN[List, Byte](keys.size, arbitrary[Byte])
-      val _size = 10.toLong.max(keys.max)
-      size <- Gen.choose(_size + 1, 2 * _size)
-    } yield State(size, HashMap(keys.zip(values): _*))
-  }
+  def genInitialState: Gen[State] =
+    for (
+      keys <- Gen.nonEmptyContainerOf[List, Long](Gen.choose(0, 2 * 1024 * 1024 * 1024));
+      values <- Gen.containerOfN[List, Byte](keys.size, arbitrary[Byte]);
+      size <- Gen.choose(
+        1 + 10.toLong.max(keys.max),
+        2 * 10.toLong.max(keys.max)
+      )
+    ) yield State(size, HashMap(keys.zip(values): _*))
 
   def initialPreCondition(s: State) = true
   def canCreateNewSut(newState: State, initStuts: Traversable[State],
     runningStuts: Traversable[Sut]) = true
-  def newSut(state: State) = MappedByteBuffer.tmp(state.size.toInt)
+  def newSut(state: State) = MappedFile.tmp(state.size.toInt)
 
   def destroySut(sut: Sut) = ()
 
@@ -128,7 +129,7 @@ object FileSpecification extends Commands {
 }
 
 final class FileLikeSpec extends FlatSpec with PropertyChecks {
-  "MappedByteBuffer" should "be a proper FileLike implementation" in {
+  "MappedFile" should "be a proper FileLike implementation" in {
     FileSpecification.property().check
   }
 }
