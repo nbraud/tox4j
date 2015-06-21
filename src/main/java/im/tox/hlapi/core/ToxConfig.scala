@@ -19,6 +19,9 @@ final case object awayMessage extends ToxConfig {
   val default = ???
 }
 
-object ToxConfig {
-  val settings = List[ToxConfig](target, awayMessage)
+object ToxConfig extends Configurable {
+  type SettingKey = ToxConfig
+
+  def getSetting(key: ToxConfig): ToxState => key.V = ???
+  def setSetting(key: ToxConfig)(value: key.V): ToxState => ToxState = ???
 }

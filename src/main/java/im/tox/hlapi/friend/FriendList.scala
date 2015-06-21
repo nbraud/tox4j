@@ -14,13 +14,11 @@ class FriendList(req: FriendListReq)
   val initial: State = KeyValueWrapper(req.storage)
 
   type ImplType = Impl
-  private[hlapi] def impl(lens: Lens[ToxState, State]) =
-    new Impl {}
+  private[hlapi] def impl(lens: Lens[ToxState, State]) = {
+    new Impl(lens)
+  }
 
-  type SettingKey = SyncConfig
-  def settings = SyncConfig.settings
-
-  trait Impl {
+  final class Impl(lens: Lens[ToxState, State]) extends Configurable {
     def addNoRequest(user: User)(tox: ToxState): ToxState = ???
     def add(user: User, noSpam: NoSpam, message: String)(tox: ToxState): ToxState = ???
     def add(address: ToxAddress, nick: Option[String], message: String)(tox: ToxState): ToxState = ???
@@ -36,6 +34,7 @@ class FriendList(req: FriendListReq)
     def tags(tox: ToxState): GenTraversable[FriendTag] = ???
     def friends(tox: ToxState): GenTraversable[User] = ???
 
+    type SettingKey = SyncConfig
     def getSetting(key: SettingKey): ToxState => key.V = ???
     def setSetting(key: SettingKey)(value: key.V): ToxState => ToxState = ???
   }

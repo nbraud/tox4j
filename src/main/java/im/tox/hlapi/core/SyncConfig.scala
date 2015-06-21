@@ -7,10 +7,6 @@ import scala.collection.immutable.List
 import org.joda.time.Period
 import com.github.nscala_time.time.StaticPeriod
 
-object SyncConfig {
-  def settings = List[SyncConfig](syncPeriod, syncWhenMobile)
-}
-
 sealed trait SyncConfig extends SettingKeyTrait
 final case object syncPeriod extends SyncConfig {
   type V = Period

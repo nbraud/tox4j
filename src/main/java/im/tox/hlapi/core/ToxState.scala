@@ -5,6 +5,7 @@ import scalaz._
 import scalaz.syntax.either._
 import scalaz.syntax.equal._
 
+import im.tox.hlapi.core.settings.Configurable
 import im.tox.hlapi.message.UserConversation
 import im.tox.hlapi.friend.IncomingRequest
 
@@ -94,8 +95,4 @@ final case class ToxState private (
       case Some(_) => -\/(t.name)
       case None    => t.register(_setState(t)(t.initial), stateLens(t))
     }
-
-  /** Configuration for ToxState */
-  type SettingKey = ToxConfig
-  val settings = ToxConfig.settings
 }

@@ -13,16 +13,16 @@ class GroupMessaging extends ToxModule {
 
   type ImplType = Impl
   private[hlapi] def impl(lens: Lens[ToxState, State]) =
-    new Impl {}
+    new Impl(lens)
 
-  sealed trait SettingKey extends SettingKeyTrait
-  def settings = List[SettingKey]()
-
-  trait Impl {
+  final class Impl(lens: Lens[ToxState, State]) extends Configurable {
     def create(tox: ToxState): (GroupChat, ToxState) = ???
     def join(group: GroupChat)(tox: ToxState): (ToxState, Future[GroupConversation]) = ???
 
+    type SettingKey = GroupSetting
     def getSetting(key: SettingKey): ToxState => key.V = ???
     def setSetting(key: SettingKey)(value: key.V): ToxState => ToxState = ???
   }
 }
+
+sealed trait GroupSetting extends SettingKeyTrait
