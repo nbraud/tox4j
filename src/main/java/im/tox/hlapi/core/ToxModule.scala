@@ -6,12 +6,11 @@ import scalaz.syntax.either._
 import im.tox.hlapi.core.security.Policy
 import im.tox.hlapi.core.settings.Configurable
 
-trait ToxModule {
+abstract class ToxModule {
   type State
-  def initial: State
-  def name: String = getClass.getName
-
-  def policy: Policy = Policy.default
+  val initial: State
+  val name: String = getClass.getName
+  val policy: Policy = Policy.default
 
   type ImplType <: Configurable
   private[hlapi] def impl(lens: Lens[ToxState, State]): ImplType
