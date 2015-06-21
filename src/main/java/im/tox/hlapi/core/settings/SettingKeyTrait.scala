@@ -1,13 +1,9 @@
 package im.tox.hlapi.core.settings
 
-import scala.reflect.Manifest
-
-trait SettingKeyTrait {
+/** The interface implemented by setting keys. */
+abstract class SettingKeyTrait {
+  /** The type of the setting's value */
   type V
-  def default: V
-
-  // Parts that might be used for auto-generating UI
-  def valueType: Manifest[V] = ???
-  def name: String = getClass.getName.split("\\$").last
-  def description: String = "This setting has no description yet"
+  /** The default value */
+  val default: V
 }
