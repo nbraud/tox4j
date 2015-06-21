@@ -9,12 +9,12 @@ final case object Battery extends OptimizationTarget
 final case object Performance extends OptimizationTarget
 
 sealed trait ToxConfig extends SettingKeyTrait
-final case object target extends ToxConfig {
+final case object Target extends ToxConfig {
   type V = OptimizationTarget
   val default = Battery
 }
 
-final case object awayMessage extends ToxConfig {
+final case object AwayMessage extends ToxConfig {
   type V = TextMessage
   val default = ???
 }

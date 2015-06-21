@@ -7,7 +7,7 @@ import scalaz._
 
 class TextMessaging extends ToxModule {
   type State = Unit
-  def initial = ()
+  val initial: State = ()
 
   type ImplType = Impl
   private[hlapi] def impl(lens: Lens[ToxState, State]) = {

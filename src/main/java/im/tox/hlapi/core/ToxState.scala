@@ -11,7 +11,7 @@ import im.tox.hlapi.friend.IncomingRequest
 
 object ToxState {
   /** Constructs a new ToxState */
-  def apply() = new ToxState(Map.empty, None, None)
+  def apply(): ToxState = new ToxState(Map.empty, None, None)
 
   implicit val ToxStateEqual: Equal[ToxState] = Equal.equal(_ == _)
 }
@@ -57,11 +57,11 @@ final case class ToxState private (
    * If there is no such state yet, use the module's initial state.
    */
   @SuppressWarnings(Array("org.brianmckenna.wartremover.warts.AsInstanceOf"))
-  private def _getState(t: ToxModule): t.State =
+  private def getState(t: ToxModule): t.State =
     moduleStates.get(t) match {
       case None    => t.initial
 
-      //This is horrible. Can moduleStates be more precisely typed?
+      // This is horrible. Can moduleStates be more precisely typed?
       case Some(x) => x.asInstanceOf[t.State]
     }
 
@@ -70,7 +70,7 @@ final case class ToxState private (
    *
    * Returns a new ToxState
    */
-  private def _setState(t: ToxModule)(s: t.State): ToxState =
+  private def setState(t: ToxModule)(s: t.State): ToxState =
     copy(moduleStates = moduleStates + ((t, s)))
 
   /**
@@ -81,8 +81,8 @@ final case class ToxState private (
    */
   private def stateLens(t: ToxModule): Lens[ToxState, t.State] =
     Lens.lensu[ToxState, t.State](
-      (s, v) => s._setState(t)(v),
-      _._getState(t)
+      (s, v) => s.setState(t)(v),
+      _.getState(t)
     )
 
   /**
@@ -93,6 +93,6 @@ final case class ToxState private (
   def register(t: ToxModule): \/[String, (ToxState, t.ImplType)] =
     moduleStates.get(t) match {
       case Some(_) => -\/(t.name)
-      case None    => t.register(_setState(t)(t.initial), stateLens(t))
+      case None    => t.register(setState(t)(t.initial), stateLens(t))
     }
 }

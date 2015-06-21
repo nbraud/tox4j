@@ -9,7 +9,7 @@ class ToxInstance(options: ToxOptions) {
   protected[core] final val tox = new ToxCoreImpl(options)
   private final val thread = new Thread(new Runnable {
     def run {
-      while (true) {
+      while (true) { // scalastyle:ignore while
         tox.iterate()
         Thread sleep tox.iterationInterval
       }

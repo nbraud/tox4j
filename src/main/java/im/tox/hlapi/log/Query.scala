@@ -1,3 +1,3 @@
 package im.tox.hlapi.log
 
-class Query {} // Give a representation for search queries
+class Query // TODO(sylvia) Give a representation for search queries

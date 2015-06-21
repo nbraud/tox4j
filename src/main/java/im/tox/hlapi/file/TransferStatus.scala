@@ -1,3 +1,3 @@
 package im.tox.hlapi.file
 
-class TransferStatus {}
+class TransferStatus // TODO(sylvia)

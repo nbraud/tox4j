@@ -11,7 +11,7 @@ object Policy {
     _p
   }
 
-  def apply(p: Permissions) = {
+  def apply(p: Permissions): Policy = {
     val _p = copy(p)
     _p.setReadOnly()
     new Policy(_p)

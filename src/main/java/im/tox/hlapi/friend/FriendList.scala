@@ -26,7 +26,7 @@ class FriendList(req: FriendListReq)
       add(address, None, message)(tox)
     }
 
-    def delete(user: User) = ???
+    def delete(user: User)(tox: ToxState): ToxState = ???
 
     val star: FriendTag = ???
     def lookupTag(name: String)(tox: ToxState): Option[FriendTag] = ???

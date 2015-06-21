@@ -10,7 +10,7 @@ import com.github.nscala_time.time.StaticPeriod
 sealed trait SyncConfig extends SettingKeyTrait
 final case object syncPeriod extends SyncConfig {
   type V = Period
-  val default = StaticPeriod.minutes(10)
+  val default = StaticPeriod.minutes(10) // scalastyle:ignore magic.number
 }
 
 final case object syncWhenMobile extends SyncConfig {
