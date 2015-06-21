@@ -14,8 +14,9 @@ class Logging extends ToxModule {
   val initial: State = ()
 
   type ImplType = Impl
-  private[hlapi] def impl(lens: Lens[ToxState, State]) =
+  private[hlapi] def impl(lens: Lens[ToxState, State]) = {
     new Impl(lens)
+  }
 
   final class Impl(lens: Lens[ToxState, State]) extends Configurable {
     def lookup(conversation: ConversationId)(tox: ToxState): GenTraversable[Message] = ???

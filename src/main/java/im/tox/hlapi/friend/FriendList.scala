@@ -7,8 +7,7 @@ import im.tox.hlapi.storage.KeyValueWrapper
 import scala.collection.GenTraversable
 import scalaz._
 
-class FriendList(req: FriendListReq)
-    extends ToxModule {
+class FriendList(req: FriendListReq) extends ToxModule {
 
   type State = KeyValueWrapper[PublicKey, User]
   val initial: State = KeyValueWrapper(req.storage)

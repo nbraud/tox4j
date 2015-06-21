@@ -23,15 +23,19 @@ class TextMessaging extends ToxModule {
   }
 }
 
+
 sealed trait MessageSetting extends SettingKeyTrait
+
 final case object strictEncoding extends MessageSetting {
   type V = Boolean
   val default = true
 }
+
 final case object downloadInlineMedia extends MessageSetting {
   type V = Boolean
   val default = true
 }
+
 final case object downloadInlineMediaWhenMobile extends MessageSetting {
   type V = Boolean
   val default = true
