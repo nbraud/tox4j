@@ -20,6 +20,9 @@ case object InvalidFormat extends IOError
  */
 case object InvalidSlice extends IOError
 
+/** Denotes a failure to allocate more space in the persistent storage. */
+final case class OutOfSpace(needed: Int) extends IOError
+
 /**
  * Default error, in case no error more relevant was found.
  *
