@@ -235,7 +235,8 @@
    <check level="error" class="org.scalastyle.scalariform.SpacesBeforePlusChecker" enabled="true"/>
 
    Check that structural types are not used.
-   <check level="error" class="org.scalastyle.scalariform.StructuralTypeChecker" enabled="true"/>
+   <check level="error" class="org.scalastyle.scalariform.StructuralTypeChecker" enabled="false"/>
+   <!-- https://github.com/tox4j/tox4j/issues/136 -->
 
    Checks that a regular expression cannot be matched in a token, if found reports this
    <check level="error" class="org.scalastyle.scalariform.TokenChecker" enabled="true"/>

@@ -9,6 +9,9 @@ sealed trait IOError
 /** Denotes an invalid argument documented by the method that returned it. */
 case object InvalidArgument extends IOError
 
+/** Denotes a parsing error, including invalid parameters in header. */
+case object InvalidFormat extends IOError
+
 /**
  * Denotes an attempt to use a slice invalidated by `file.unsafeResize`.
  *
@@ -16,6 +19,9 @@ case object InvalidArgument extends IOError
  * whether this error is returned is implementation-defined.
  */
 case object InvalidSlice extends IOError
+
+/** Denotes a failure to allocate more space in the persistent storage. */
+final case class OutOfSpace(needed: Int) extends IOError
 
 /**
  * Default error, in case no error more relevant was found.
@@ -63,6 +69,21 @@ object IOError {
       \/-(())
     } else {
       -\/(error)
+    }
+  }
+
+  /** Implicitely adds a [[toError]] method to [[Option]]. */
+  implicit class RichOption[A](option: Option[A]) {
+    /**
+     * Converts the [[Option]] to an [[IOError]].
+     *
+     * @return [[UnknownFailure]] if [[option]] was `None`, its value otherwise.
+     */
+    def toError: \/[IOError, A] = {
+      option match {
+        case None    => -\/(UnknownFailure)
+        case Some(x) => \/-(x)
+      }
     }
   }
 }

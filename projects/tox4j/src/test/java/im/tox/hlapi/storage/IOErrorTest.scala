@@ -11,7 +11,23 @@ import org.scalatest._
 import org.scalatest.prop.GeneratorDrivenPropertyChecks
 
 final class IOErrorTest extends FlatSpec with GeneratorDrivenPropertyChecks with ShouldMatchers {
-  final val genError: Gen[IOError] = Gen.oneOf(InvalidArgument, UnknownFailure)
+  private final val genOutOfSpace: Gen[IOError] = {
+    for {
+      size <- Gen.choose(0, Int.MaxValue)
+    } yield OutOfSpace(size)
+  }
+
+  final val genError: Gen[IOError] = {
+    Gen.oneOf(
+      genOutOfSpace,
+      Gen.oneOf(
+        InvalidArgument,
+        InvalidFormat,
+        UnknownFailure
+      )
+    )
+  }
+
   final val genException: Gen[IOException] = {
     val reason = "Produced in IOErrorTest"
     Gen.oneOf(
